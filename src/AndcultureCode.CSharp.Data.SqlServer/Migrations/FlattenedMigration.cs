@@ -10,6 +10,9 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Migrations
     /// Base class for migrations that have been flattened. Contains
     /// helper methods to validate if the flattened migration should
     /// run on a given database.
+    /// 
+    /// TODO: Tests should be written for this class at some point,
+    /// see Github issue here: https://github.com/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer/issues/2
     /// </summary>
     public abstract class FlattenedMigration : Migration
     {
