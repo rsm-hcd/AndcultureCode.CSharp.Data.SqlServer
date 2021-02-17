@@ -9,6 +9,13 @@
   - [LogMigrationMessage(messages)](#M-AndcultureCode-CSharp-Data-SqlServer-Migrations-FlattenedMigration-LogMigrationMessage-System-String[]- 'AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.LogMigrationMessage(System.String[])')
   - [LogMigrationMessageLine(line,direction)](#M-AndcultureCode-CSharp-Data-SqlServer-Migrations-FlattenedMigration-LogMigrationMessageLine-System-String,System-String- 'AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.LogMigrationMessageLine(System.String,System.String)')
   - [ValidateFlattenedShouldRun(id)](#M-AndcultureCode-CSharp-Data-SqlServer-Migrations-FlattenedMigration-ValidateFlattenedShouldRun-System-String- 'AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.ValidateFlattenedShouldRun(System.String)')
+- [IEnumerableExtensions](#T-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions 'AndcultureCode.CSharp.Data.SqlServer.Extensions.IEnumerableExtensions')
+  - [DistinctBy\`\`2(source,property)](#M-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions-DistinctBy``2-System-Collections-Generic-IEnumerable{``0},System-Func{``0,``1}- 'AndcultureCode.CSharp.Data.SqlServer.Extensions.IEnumerableExtensions.DistinctBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})')
+  - [DistinctBy\`\`2(source,property)](#M-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions-DistinctBy``2-System-Collections-Generic-List{``0},System-Func{``0,``1}- 'AndcultureCode.CSharp.Data.SqlServer.Extensions.IEnumerableExtensions.DistinctBy``2(System.Collections.Generic.List{``0},System.Func{``0,``1})')
+- [Repository\`1](#T-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1 'AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1')
+  - [#ctor()](#M-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-#ctor-AndcultureCode-CSharp-Core-Interfaces-IContext,Microsoft-Extensions-Localization-IStringLocalizer- 'AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.#ctor(AndcultureCode.CSharp.Core.Interfaces.IContext,Microsoft.Extensions.Localization.IStringLocalizer)')
+  - [ERROR_DELETE_MISSING_ENTITY](#F-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-ERROR_DELETE_MISSING_ENTITY 'AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_MISSING_ENTITY')
+  - [ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE](#F-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE 'AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE')
 
 <a name='T-AndcultureCode-CSharp-Data-SqlServer-Migrations-FlattenedMigration'></a>
 ## FlattenedMigration `type`
@@ -22,6 +29,9 @@ AndcultureCode.CSharp.Data.SqlServer.Migrations
 Base class for migrations that have been flattened. Contains
 helper methods to validate if the flattened migration should
 run on a given database.
+
+TODO: Tests should be written for this class at some point,
+see Github issue here: https://github.com/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer/issues/2
 
 <a name='P-AndcultureCode-CSharp-Data-SqlServer-Migrations-FlattenedMigration-Context'></a>
 ### Context `property`
@@ -86,3 +96,96 @@ running the migration, as this is not a fresh install, and the migration will li
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The ID of the flattened migration, as defined in the FlattenedMigrations list. |
+
+<a name='T-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions'></a>
+## IEnumerableExtensions `type`
+
+##### Namespace
+
+AndcultureCode.CSharp.Data.SqlServer.Extensions
+
+<a name='M-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions-DistinctBy``2-System-Collections-Generic-IEnumerable{``0},System-Func{``0,``1}-'></a>
+### DistinctBy\`\`2(source,property) `method`
+
+##### Summary
+
+Returns a distinct enumerable by a specific property
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| source | [System.Collections.Generic.IEnumerable{\`\`0}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable 'System.Collections.Generic.IEnumerable{``0}') |  |
+| property | [System.Func{\`\`0,\`\`1}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Func 'System.Func{``0,``1}') |  |
+
+##### Generic Types
+
+| Name | Description |
+| ---- | ----------- |
+| T |  |
+| TKey |  |
+
+<a name='M-AndcultureCode-CSharp-Data-SqlServer-Extensions-IEnumerableExtensions-DistinctBy``2-System-Collections-Generic-List{``0},System-Func{``0,``1}-'></a>
+### DistinctBy\`\`2(source,property) `method`
+
+##### Summary
+
+Returns a distinct list by a specific property
+
+##### Returns
+
+
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| source | [System.Collections.Generic.List{\`\`0}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.List 'System.Collections.Generic.List{``0}') |  |
+| property | [System.Func{\`\`0,\`\`1}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Func 'System.Func{``0,``1}') |  |
+
+##### Generic Types
+
+| Name | Description |
+| ---- | ----------- |
+| T |  |
+| TKey |  |
+
+<a name='T-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1'></a>
+## Repository\`1 `type`
+
+##### Namespace
+
+AndcultureCode.CSharp.Data.SqlServer.Repositories
+
+##### Summary
+
+SqlServer implementation for CRUD operations for `T`
+
+<a name='M-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-#ctor-AndcultureCode-CSharp-Core-Interfaces-IContext,Microsoft-Extensions-Localization-IStringLocalizer-'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+Default constructor injecting the data context
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='F-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-ERROR_DELETE_MISSING_ENTITY'></a>
+### ERROR_DELETE_MISSING_ENTITY `constants`
+
+##### Summary
+
+Entity could not be deleted as it does not exist
+
+<a name='F-AndcultureCode-CSharp-Data-SqlServer-Repositories-Repository`1-ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE'></a>
+### ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE `constants`
+
+##### Summary
+
+Entity cannot be soft deleted

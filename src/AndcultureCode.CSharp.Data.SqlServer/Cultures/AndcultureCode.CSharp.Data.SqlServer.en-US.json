@@ -1,0 +1,10 @@
+[
+    {
+        "Key": "Repository.Delete.MissingEntity",
+        "Value": "{0} does not exist."
+    },
+    {
+        "Key": "Repository.Delete.SoftDeletionNotIDeleteable",
+        "Value": "In order to perform a soft delete, the object must implement the IDeletable interface."
+    }
+]
