@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AndcultureCode.CSharp.Core;
 using AndcultureCode.CSharp.Core.Extensions;
 using AndcultureCode.CSharp.Core.Interfaces;
@@ -20,7 +21,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
     /// <summary>
     /// SqlServer implementation for CRUD operations for <typeparamref name="T"/>
     /// </summary>
-    public class Repository<T> : IRepository<T> where T : Entity
+    public partial class Repository<T> : IRepository<T> where T : Entity
     {
         #region Constants
 
@@ -451,173 +452,6 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             return result;
         }
 
-        public virtual IResult<IQueryable<T>> FindAll(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-        )
-        {
-            var result = new Result<IQueryable<T>>();
-
-            try
-            {
-                result.ResultObject = GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters, asNoTracking);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public IResult<IQueryable<IGrouping<TKey, T>>> FindAll<TKey>(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Expression<Func<T, TKey>> groupBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-       ) => throw new NotImplementedException($"FindAll overload with groupBy params from AndcultureCode.CSharp.Core@0.7.0 not yet implemented.");
-
-        public IResult<IQueryable<TResult>> FindAll<TKey, TResult>(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Expression<Func<T, TKey>> groupBy = null,
-            Expression<Func<TKey, IEnumerable<T>, TResult>> groupBySelector = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-        ) => throw new NotImplementedException($"FindAll overload with groupBy params from AndcultureCode.CSharp.Core@0.7.0 not yet implemented.");
-
-        public virtual IResult<IList<T>> FindAllCommitted(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false)
-        {
-            var result = new Result<IList<T>>();
-
-            try
-            {
-                result.ResultObject = GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters).ToList();
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public virtual IResult<T> FindById(long id, bool? ignoreQueryFilters = false)
-        {
-            var result = new Result<T>();
-
-            try
-            {
-                if (ignoreQueryFilters.HasValue && ignoreQueryFilters.Value)
-                {
-                    Query = Query.IgnoreQueryFilters();
-                }
-
-                result.ResultObject = Query.FirstOrDefault(e => e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public virtual IResult<T> FindById(long id, bool? ignoreQueryFilters = false, params Expression<Func<T, object>>[] includeProperties)
-        {
-            var result = new Result<T>();
-
-            try
-            {
-                var query = Query;
-
-                if (ignoreQueryFilters.HasValue && ignoreQueryFilters.Value)
-                {
-                    query = query.IgnoreQueryFilters();
-                }
-
-                foreach (var property in includeProperties)
-                {
-                    query = query.Include(property);
-                }
-
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public virtual IResult<T> FindById(long id, params Expression<Func<T, object>>[] includeProperties)
-        {
-            var result = new Result<T>();
-
-            try
-            {
-                var query = Query;
-
-                foreach (var property in includeProperties)
-                {
-                    query = query.Include(property);
-                }
-
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public virtual IResult<T> FindById(long id, params string[] includeProperties)
-        {
-            var result = new Result<T>();
-
-            try
-            {
-                var query = Query;
-
-                foreach (var property in includeProperties)
-                {
-                    if (!string.IsNullOrEmpty(property))
-                    {
-                        query = query.Include(property);
-                    }
-                }
-
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
         public virtual IResult<bool> Restore(long id)
         {
             var result = new Result<bool> { ResultObject = false };
@@ -781,6 +615,76 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             }
 
             return query;
+        }
+
+        public Task<IResult<List<T>>> BulkCreateAsync(IEnumerable<T> items, long? createdById = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<List<T>>> BulkCreateDistinctAsync<TKey>(IEnumerable<T> items, Func<T, TKey> property, long? createdById = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<T>> CreateAsync(T item, long? createdById = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<List<T>>> CreateAsync(IEnumerable<T> items, long? createdById = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<List<T>>> CreateDistinctAsync<TKey>(IEnumerable<T> items, Func<T, TKey> property, long? createdById = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> BulkDeleteAsync(IEnumerable<T> items, long? deletedById = null, bool soft = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> DeleteAsync(long id, long? deletedById = null, bool soft = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> DeleteAsync(T o, long? deletedById = null, bool soft = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> DeleteAsync(IEnumerable<T> items, long? deletedById = null, long batchSize = 100, bool soft = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> RestoreAsync(T o)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> RestoreAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> BulkUpdateAsync(IEnumerable<T> entities, long? updatedBy = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> UpdateAsync(T item, long? updatedBy = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResult<bool>> UpdateAsync(IEnumerable<T> entities, long? updatedBy = null)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion Protected Methods

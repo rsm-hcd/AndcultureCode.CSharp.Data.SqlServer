@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AndcultureCode.CSharp.Data.SqlServer</name>
+    </assembly>
+    <members>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Extensions.IEnumerableExtensions.DistinctBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Returns a distinct enumerable by a specific property
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Extensions.IEnumerableExtensions.DistinctBy``2(System.Collections.Generic.List{``0},System.Func{``0,``1})">
+            <summary>
+            Returns a distinct list by a specific property
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+            <param name="source"></param>
+            <param name="property"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration">
+            <summary>
+            Base class for migrations that have been flattened. Contains
+            helper methods to validate if the flattened migration should
+            run on a given database.
+            
+            TODO: Tests should be written for this class at some point,
+            see Github issue here: https://github.com/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer/issues/2
+            </summary>
+        </member>
+        <member name="P:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.FlattenedMigrations">
+            <summary>
+            This should contain all flattened migration ID consts, in the order that they should
+            be run.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.Context">
+            <summary>
+            Should return the DbContext this migration works with. Recommend caching
+            the context, and instantiating a new one on first get if the cached
+            version has not yet been instantiated.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.LogMigrationMessage(System.String[])">
+            <summary>
+            Outputs a given list of messages to the console running the migration.
+            </summary>
+            <param name="messages"></param>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.LogMigrationMessageLine(System.String,System.String)">
+            <summary>
+            Outputs a single message to the console running the migration, indicating the
+            direction of the migration.
+            </summary>
+            <param name="line"></param>
+            <param name="direction"></param>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Migrations.FlattenedMigration.ValidateFlattenedShouldRun(System.String)">
+            <summary>
+            This will check if, based on the sort order of the other migrations, this flattened
+            migration has not run on a fresh install.
+            </summary>
+            <param name="id">The ID of the flattened migration, as defined in the FlattenedMigrations list.</param>
+            <returns>True indicates the migration should be run. False indicates you should abort
+            running the migration, as this is not a fresh install, and the migration will likely fail.</returns>
+        </member>
+        <member name="T:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1">
+            <summary>
+            SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+            </summary>
+            <summary>
+            SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+            </summary>
+        </member>
+        <member name="F:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_MISSING_ENTITY">
+            <summary>
+            Entity could not be deleted as it does not exist
+            </summary>
+        </member>
+        <member name="F:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE">
+            <summary>
+            Entity cannot be soft deleted
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.#ctor(AndcultureCode.CSharp.Core.Interfaces.IContext,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Default constructor injecting the data context
+            </summary>
+        </member>
+        <member name="T:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext">
+            <summary>
+            Base implementation of a generic dbcontext
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.Add``1(``0)">
+            <summary>
+            Gets the context ready for adding the entity, does not save the changes on the context
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="entity"></param>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.CreateStructure">
+            <summary>
+            Bring the database up to the latest migration
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.Delete``1(``0)">
+            <summary>
+            Gets the context ready for removing the entity, does not save the changes on the context
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="entity"></param>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.DropStructure">
+            <summary>
+            Remove all context items from the database
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.Query``1">
+             <summary>
+            
+             </summary>
+             <typeparam name="T"></typeparam>
+             <returns></returns>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.Update``1(``0)">
+            <summary>
+            Gets the context ready for updating the entity, does not save the changes on the context
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="entity"></param>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.ConfigureMappings(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configure the mappings for the context
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.GetEntityEntry``1(``0)">
+            <summary>
+            Get the entity entry
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.SetAsAdded``1(``0)">
+            <summary>
+            Set the entity as being added
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.SetAsDeleted``1(``0)">
+            <summary>
+            Set the entity as being deleted
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.SetAsDetached``1(``0)">
+            <summary>
+            Set the entity as detached
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.SetAsModified``1(``0)">
+            <summary>
+            Set the entity as being modified
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.UpdateEntityState``1(``0,Microsoft.EntityFrameworkCore.EntityState)">
+            <summary>
+            Update the entity state for the specified entity
+            </summary>
+        </member>
+    </members>
+</doc>
