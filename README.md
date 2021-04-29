@@ -1,5 +1,5 @@
-# AndcultureCode.CSharp.Data.SqlServer [![Build Status](https://travis-ci.org/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer.svg?branch=master)](https://travis-ci.org/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer) [![codecov](https://codecov.io/gh/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer/branch/master/graph/badge.svg)](https://codecov.io/gh/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+# AndcultureCode.CSharp.Data.SqlServer 
+[![Build Status](https://travis-ci.org/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer.svg?branch=master)](https://travis-ci.org/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer) [![codecov](https://codecov.io/gh/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer/branch/master/graph/badge.svg)](https://codecov.io/gh/AndcultureCode/AndcultureCode.CSharp.Data.SqlServer)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 Infrastructure layer's SQL Server specific package.
