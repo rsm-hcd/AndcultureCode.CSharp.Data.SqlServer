@@ -33,47 +33,11 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             int? take = null,
             bool? ignoreQueryFilters = false,
             bool asNoTracking = false
-        )
-        {
-            var result = new Result<IQueryable<T>>();
-
-            try
-            {
-                result.ResultObject = GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters, asNoTracking);
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
-
-        public async virtual Task<IResult<IQueryable<T>>> FindAllAsync(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-        )
-        {
-            throw new NotImplementedException();
-        }
+        ) => Do<IQueryable<T>>.Try((r) =>
+            GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters, asNoTracking)
+        ).Result;
 
         public IResult<IQueryable<IGrouping<TKey, T>>> FindAll<TKey>(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Expression<Func<T, TKey>> groupBy = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-        ) => throw new NotImplementedException($"FindAll overload with groupBy params from AndcultureCode.CSharp.Core@0.7.0 not yet implemented.");
-
-        public async Task<IResult<IQueryable<IGrouping<TKey, T>>>> FindAllAsync<TKey>(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             Expression<Func<T, TKey>> groupBy = null,
@@ -96,39 +60,16 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             bool asNoTracking = false
         ) => throw new NotImplementedException($"FindAll overload with groupBy params from AndcultureCode.CSharp.Core@0.7.0 not yet implemented.");
 
-        public async Task<IResult<IQueryable<TResult>>> FindAllAsync<TKey, TResult>(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            Expression<Func<T, TKey>> groupBy = null,
-            Expression<Func<TKey, IEnumerable<T>, TResult>> groupBySelector = null,
-            string includeProperties = null,
-            int? skip = null,
-            int? take = null,
-            bool? ignoreQueryFilters = false,
-            bool asNoTracking = false
-        ) => throw new NotImplementedException($"FindAll overload with groupBy params from AndcultureCode.CSharp.Core@0.7.0 not yet implemented.");
-
         public virtual IResult<IList<T>> FindAllCommitted(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = null,
             int? skip = null,
             int? take = null,
-            bool? ignoreQueryFilters = false)
-        {
-            var result = new Result<IList<T>>();
-
-            try
-            {
-                result.ResultObject = GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters).ToList();
-            }
-            catch (Exception ex)
-            {
-                result.AddError(ex.GetType().ToString(), ex.Message);
-            }
-
-            return result;
-        }
+            bool? ignoreQueryFilters = false
+        ) => Do<IList<T>>.Try((r) =>
+            GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters).ToList()
+        ).Result;
 
         public async virtual Task<IResult<IList<T>>> FindAllCommittedAsync(
             Expression<Func<T, bool>> filter = null,
@@ -153,11 +94,73 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
         }
 
         public IResult<T> FindById(long id, Expression<Func<T, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException($"FindById overload with filter params from AndcultureCode.CSharp.Core@0.8.0 not yet implemented.");
 
-        public virtual IResult<T> FindById(long id, bool? ignoreQueryFilters = false)
+        public virtual IResult<T> FindById(long id, bool? ignoreQueryFilters = false) => Do<T>.Try((r) =>
+        {
+            if (ignoreQueryFilters.HasValue && ignoreQueryFilters.Value)
+            {
+                Query = Query.IgnoreQueryFilters();
+            }
+
+            return Query.FirstOrDefault(e => e.Id == id);
+        }).Result;
+
+        public virtual IResult<T> FindById(
+            long id,
+            bool? ignoreQueryFilters = false,
+            params Expression<Func<T, object>>[] includeProperties
+        ) => Do<T>.Try((r) =>
+        {
+            var query = Query;
+
+            if (ignoreQueryFilters.HasValue && ignoreQueryFilters.Value)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+
+            foreach (var property in includeProperties)
+            {
+                query = query.Include(property);
+            }
+
+            return query.FirstOrDefault(e => e.Id == id);
+        }).Result;
+
+        public virtual IResult<T> FindById(
+            long id,
+            params Expression<Func<T, object>>[] includeProperties
+        ) => Do<T>.Try((r) =>
+        {
+            var query = Query;
+
+            foreach (var property in includeProperties)
+            {
+                query = query.Include(property);
+            }
+
+            return query.FirstOrDefault(e => e.Id == id);
+        }).Result;
+
+        public virtual IResult<T> FindById(long id, params string[] includeProperties) => Do<T>.Try((r) =>
+        {
+            var query = Query;
+
+            foreach (var property in includeProperties)
+            {
+                if (!string.IsNullOrEmpty(property))
+                {
+                    query = query.Include(property);
+                }
+            }
+
+            return query.FirstOrDefault(e => e.Id == id);
+        }).Result;
+
+        public Task<IResult<T>> FindByIdAsync(long id, Expression<Func<T, bool>> filter)
+            => throw new NotImplementedException($"FindByIdAsync overload with filter params from AndcultureCode.CSharp.Core@0.8.0 not yet implemented.");
+
+        public async virtual Task<IResult<T>> FindByIdAsync(long id, bool? ignoreQueryFilters = false)
         {
             var result = new Result<T>();
 
@@ -168,7 +171,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
                     Query = Query.IgnoreQueryFilters();
                 }
 
-                result.ResultObject = Query.FirstOrDefault(e => e.Id == id);
+                result.ResultObject = await Query.FirstOrDefaultAsync(e => e.Id == id);
             }
             catch (Exception ex)
             {
@@ -178,7 +181,11 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             return result;
         }
 
-        public virtual IResult<T> FindById(long id, bool? ignoreQueryFilters = false, params Expression<Func<T, object>>[] includeProperties)
+        public async virtual Task<IResult<T>> FindByIdAsync(
+            long id,
+            bool? ignoreQueryFilters = false,
+            params Expression<Func<T, object>>[] includeProperties
+        )
         {
             var result = new Result<T>();
 
@@ -196,7 +203,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
                     query = query.Include(property);
                 }
 
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
+                result.ResultObject = await query.FirstOrDefaultAsync(e => e.Id == id);
             }
             catch (Exception ex)
             {
@@ -206,7 +213,10 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             return result;
         }
 
-        public virtual IResult<T> FindById(long id, params Expression<Func<T, object>>[] includeProperties)
+        public async virtual Task<IResult<T>> FindByIdAsync(
+            long id,
+            params Expression<Func<T, object>>[] includeProperties
+        )
         {
             var result = new Result<T>();
 
@@ -219,7 +229,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
                     query = query.Include(property);
                 }
 
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
+                result.ResultObject = await query.FirstOrDefaultAsync(e => e.Id == id);
             }
             catch (Exception ex)
             {
@@ -229,7 +239,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             return result;
         }
 
-        public virtual IResult<T> FindById(long id, params string[] includeProperties)
+        public async virtual Task<IResult<T>> FindByIdAsync(long id, params string[] includeProperties)
         {
             var result = new Result<T>();
 
@@ -245,7 +255,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
                     }
                 }
 
-                result.ResultObject = query.FirstOrDefault(e => e.Id == id);
+                result.ResultObject = await query.FirstOrDefaultAsync(e => e.Id == id);
             }
             catch (Exception ex)
             {
@@ -253,31 +263,6 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             }
 
             return result;
-        }
-
-        public Task<IResult<T>> FindByIdAsync(long id, Expression<Func<T, bool>> filter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async virtual Task<IResult<T>> FindByIdAsync(long id, bool? ignoreQueryFilters = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async virtual Task<IResult<T>> FindByIdAsync(long id, bool? ignoreQueryFilters = false, params Expression<Func<T, object>>[] includeProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async virtual Task<IResult<T>> FindByIdAsync(long id, params Expression<Func<T, object>>[] includeProperties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async virtual Task<IResult<T>> FindByIdAsync(long id, params string[] includeProperties)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion Public Methods
