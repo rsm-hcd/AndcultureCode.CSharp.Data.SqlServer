@@ -138,7 +138,18 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
             int? take = null,
             bool? ignoreQueryFilters = false)
         {
-            throw new NotImplementedException();
+            var result = new Result<IList<T>>();
+
+            try
+            {
+                result.ResultObject = await GetQueryable(filter, orderBy, includeProperties, skip, take, ignoreQueryFilters).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result.AddError(ex.GetType().ToString(), ex.Message);
+            }
+
+            return result;
         }
 
         public IResult<T> FindById(long id, Expression<Func<T, bool>> filter)
