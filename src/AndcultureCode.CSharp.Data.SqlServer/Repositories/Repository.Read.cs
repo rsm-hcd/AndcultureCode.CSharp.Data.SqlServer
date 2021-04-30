@@ -23,6 +23,8 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
     /// </summary>
     public partial class Repository<T> : IRepository<T> where T : Entity
     {
+        #region Public Methods
+
         public virtual IResult<IQueryable<T>> FindAll(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -266,5 +268,63 @@ namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
         {
             throw new NotImplementedException();
         }
+
+        #endregion Public Methods
+
+
+        #region Protected Methods
+
+        protected virtual IQueryable<T> GetQueryable(
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null,
+            int? skip = null,
+            int? take = null,
+            bool? ignoreQueryFilters = false,
+            bool asNoTracking = false
+        )
+        {
+            includeProperties = includeProperties ?? string.Empty;
+            var query = Query;
+
+            if (ignoreQueryFilters.HasValue && ignoreQueryFilters.Value)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (skip.HasValue)
+            {
+                query = query.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            if (asNoTracking)
+            {
+                query = query.AsNoTracking();
+            }
+
+            return query;
+        }
+
+        #endregion Protected Methods
     }
 }

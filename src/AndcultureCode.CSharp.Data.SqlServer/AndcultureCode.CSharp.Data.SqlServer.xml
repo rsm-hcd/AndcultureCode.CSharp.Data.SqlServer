@@ -79,6 +79,20 @@
             <summary>
             SqlServer implementation for CRUD operations for <typeparamref name="T"/>
             </summary>
+            <summary>
+            SqlServer implementation for DELETE operations for <typeparamref name="T"/>
+            </summary>
+            <summary>
+            SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+            </summary>
+            <summary>
+            SqlServer implementation for DELETE operations for <typeparamref name="T"/>
+            </summary>
+        </member>
+        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.#ctor(AndcultureCode.CSharp.Core.Interfaces.IContext,Microsoft.Extensions.Localization.IStringLocalizer)">
+            <summary>
+            Default constructor injecting the data context
+            </summary>
         </member>
         <member name="F:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_MISSING_ENTITY">
             <summary>
@@ -88,11 +102,6 @@
         <member name="F:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.ERROR_DELETE_SOFT_DELETION_NOT_IDELETEABLE">
             <summary>
             Entity cannot be soft deleted
-            </summary>
-        </member>
-        <member name="M:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.#ctor(AndcultureCode.CSharp.Core.Interfaces.IContext,Microsoft.Extensions.Localization.IStringLocalizer)">
-            <summary>
-            Default constructor injecting the data context
             </summary>
         </member>
         <member name="T:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext">
