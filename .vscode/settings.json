@@ -1,3 +1,12 @@
 {
-    "files.insertFinalNewline": true
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    },
+    "csharp.format.enable": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.rulers": [100],
+    "files.insertFinalNewline": true,
+    "prettier.requireConfig": true,
+    "trailing-spaces.trimOnSave": true
 }
