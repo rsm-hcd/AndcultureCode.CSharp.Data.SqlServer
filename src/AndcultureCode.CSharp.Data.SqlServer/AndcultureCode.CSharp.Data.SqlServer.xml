@@ -74,7 +74,7 @@
         </member>
         <member name="T:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1">
             <summary>
-            SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+            SqlServer implementation for CREATE operations for <typeparamref name="T"/>
             </summary>
             <summary>
             SqlServer implementation for CRUD operations for <typeparamref name="T"/>
@@ -83,10 +83,10 @@
             SqlServer implementation for DELETE operations for <typeparamref name="T"/>
             </summary>
             <summary>
-            SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+            SqlServer implementation for READ operations for <typeparamref name="T"/>
             </summary>
             <summary>
-            SqlServer implementation for DELETE operations for <typeparamref name="T"/>
+            SqlServer implementation for UPDATE operations for <typeparamref name="T"/>
             </summary>
         </member>
         <member name="M:AndcultureCode.CSharp.Data.SqlServer.Repositories.Repository`1.#ctor(AndcultureCode.CSharp.Core.Interfaces.IContext,Microsoft.Extensions.Localization.IStringLocalizer)">
@@ -106,7 +106,7 @@
         </member>
         <member name="T:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext">
             <summary>
-            Base implementation of a generic dbcontext
+            SQL Server implementation of Context
             </summary>
         </member>
         <member name="M:AndcultureCode.CSharp.Data.SqlServer.SqlServerContext.Add``1(``0)">

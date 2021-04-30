@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
 {
     /// <summary>
-    /// SqlServer implementation for DELETE operations for <typeparamref name="T"/>
+    /// SqlServer implementation for UPDATE operations for <typeparamref name="T"/>
     /// </summary>
     public partial class Repository<T> : IRepository<T> where T : Entity
     {

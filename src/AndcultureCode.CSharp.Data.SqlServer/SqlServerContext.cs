@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace AndcultureCode.CSharp.Data.SqlServer
 {
     /// <summary>
-    /// Base implementation of a generic dbcontext
+    /// SQL Server implementation of Context
     /// </summary>
     public abstract class SqlServerContext : DbContext, IContext
     {
@@ -21,7 +21,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer
 
         #region Constructors
 
-        public SqlServerContext() {}
+        public SqlServerContext() { }
         public SqlServerContext(string connectionString, ILoggerFactory loggerFactory)
         {
             _connectionString = connectionString;
@@ -73,13 +73,9 @@ namespace AndcultureCode.CSharp.Data.SqlServer
         /// <summary>
         /// Bring the database up to the latest migration
         /// </summary>
-        public virtual void CreateStructure()
-        {
-        }
+        public virtual void CreateStructure() { }
 
-        public virtual void DeleteDatabase()
-        {
-        }
+        public virtual void DeleteDatabase() { }
 
         /// <summary>
         /// Gets the context ready for removing the entity, does not save the changes on the context
@@ -97,9 +93,7 @@ namespace AndcultureCode.CSharp.Data.SqlServer
         /// <summary>
         /// Remove all context items from the database
         /// </summary>
-        public virtual void DropStructure()
-        {
-        }
+        public virtual void DropStructure() { }
 
         /// <summary>
         ///
@@ -131,11 +125,10 @@ namespace AndcultureCode.CSharp.Data.SqlServer
         /// <summary>
         /// Configure the mappings for the context
         /// </summary>
-        public virtual void ConfigureMappings(ModelBuilder modelBuilder)
-        {
-        }
+        public virtual void ConfigureMappings(ModelBuilder modelBuilder) { }
 
-        public virtual long ExecuteCommand(string commandText) => base.Database.ExecuteSqlCommand(commandText);
+        public virtual long ExecuteCommand(string commandText)
+            => base.Database.ExecuteSqlRaw(commandText);
 
         #endregion Public Methods
 
@@ -160,41 +153,31 @@ namespace AndcultureCode.CSharp.Data.SqlServer
         /// Set the entity as being added
         /// </summary>
         private void SetAsAdded<T>(T entity) where T : class
-        {
-            UpdateEntityState(entity, EntityState.Added);
-        }
+            => UpdateEntityState(entity, EntityState.Added);
 
         /// <summary>
         /// Set the entity as being deleted
         /// </summary>
         private void SetAsDeleted<T>(T entity) where T : class
-        {
-            UpdateEntityState(entity, EntityState.Deleted);
-        }
+            => UpdateEntityState(entity, EntityState.Deleted);
 
         /// <summary>
         /// Set the entity as detached
         /// </summary>
         private void SetAsDetached<T>(T entity) where T : class
-        {
-            UpdateEntityState(entity, EntityState.Detached);
-        }
+            => UpdateEntityState(entity, EntityState.Detached);
 
         /// <summary>
         /// Set the entity as being modified
         /// </summary>
         private void SetAsModified<T>(T entity) where T : class
-        {
-            UpdateEntityState(entity, EntityState.Modified);
-        }
+            => UpdateEntityState(entity, EntityState.Modified);
 
         /// <summary>
         /// Update the entity state for the specified entity
         /// </summary>
         private void UpdateEntityState<T>(T entity, EntityState state) where T : class
-        {
-            GetEntityEntry(entity).State = state;
-        }
+            => GetEntityEntry(entity).State = state;
 
         #endregion Private Methods
     }

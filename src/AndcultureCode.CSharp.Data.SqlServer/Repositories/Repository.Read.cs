@@ -19,7 +19,7 @@ using Microsoft.Extensions.Localization;
 namespace AndcultureCode.CSharp.Data.SqlServer.Repositories
 {
     /// <summary>
-    /// SqlServer implementation for CRUD operations for <typeparamref name="T"/>
+    /// SqlServer implementation for READ operations for <typeparamref name="T"/>
     /// </summary>
     public partial class Repository<T> : IRepository<T> where T : Entity
     {
